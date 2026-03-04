@@ -95,8 +95,29 @@ GROUP BY Payment_Method
 ORDER BY Sales_by_Payment_Method DESC;
 
 -- 8. Count the number of sales by Channel (Online vs Offline).
+
+SELECT Channel,
+    COUNT(*) AS Sales_by_Channel
+FROM [PC_SALES].[dbo].[pc_data]
+GROUP BY Channel
+ORDER BY Sales_by_Channel DESC;
+
 -- 9. Count the number of sales by Priority level.
+
+SELECT Priority,
+    COUNT(*) AS Sales_by_Priority_Level
+FROM [PC_SALES].[dbo].[pc_data]
+GROUP BY Priority
+ORDER BY Sales_by_Priority_Level DESC;
+
 -- 10. Count the number of distinct PC Make values.
+
+SELECT DISTINCT PC_Make,
+    COUNT(*) AS Distinct_PC_Make_Values
+FROM [PC_SALES].[dbo].[pc_data]
+GROUP BY PC_Make
+ORDER BY Distinct_PC_Make_Values DESC;
+
 
 -- INTERMEDIATE QUESTIONS
 
