@@ -47,38 +47,36 @@
 -- 21. Calculate profit per Shop Name.
 
 SELECT Shop_Name,
-    SUM(Sale_Price - Cost_Price) AS Total_Profit
+    SUM(Sale_Price - Cost_Price - Discount_Amount) AS Total_Profit
 FROM [PC_SALES].[dbo].[pc_data]
 GROUP BY Shop_Name;
 
 -- 22. Calculate profit margin per sale ((Sale Price - Cost Price) / Sale Price).
 
-SELECT
-    SUM((Sale_Price - Cost_Price)/Sale_Price) AS Total_Profit
+SELECT *,
+    ROUND((Sale_Price - Cost_Price - Discount_Amount/Sale_Price) * 100,2) AS Profit_Margin
 FROM [PC_SALES].[dbo].[pc_data];
 
 -- 23. Determine which Continent has the highest total revenue.
 
-SELECT Continent,
+SELECT TOP 1 Continent,
     SUM(CAST(Sale_Price - Discount_Amount AS BIGINT)) AS Total_revenue
 FROM [PC_SALES].[dbo].[pc_data]
-GROUP BY Continent
-ORDER BY Total_revenue DESC;
+GROUP BY Continent;
 
 -- 24. Calculate average Sale Price per RAM size.
 
 SELECT RAM,
     AVG(Sale_Price) AS Average_Sale_Price
 FROM [PC_SALES].[dbo].[pc_data]
-GROUP BY RAM
-ORDER BY Average_Sale_Price DESC;
+GROUP BY RAM;
 
 -- 25. Find the PC Model with the highest Sale Price.
 
 SELECT TOP 1 PC_Model,
-             Sale_Price
+             MAX(Sale_Price) AS Highest_sale_price
 FROM [PC_SALES].[dbo].[pc_data]
-ORDER BY Sale_Price DESC;
+GROUP BY PC_Model;
 
 -- 26. Calculate the average number of days between Purchase Date and Ship Date.
 
@@ -90,7 +88,11 @@ WHERE Purchase_Date IS NOT NULL
 
 -- 27. Determine which Sales Person Department generates the highest revenue.
 
-
+SELECT Sales_Person_Department,
+    SUM(CAST(Sale_Price - Discount_Amount AS BIGINT)) AS Total_revenue
+FROM [PC_SALES].[dbo].[pc_data]
+GROUP BY Sales_Person_Department
+ORDER BY Total_revenue ;
 
 -- 28. Calculate total revenue per Storage Capacity.
 
@@ -102,6 +104,10 @@ ORDER BY Total_revenue DESC;
 
 -- 29. Identify sales where Sale Price is lower than PC Market Price.
 
-SELECT 
+SELECT Sale_Price,
+       PC_Market_Price
+       MIN(
+FROM [PC_SALES].[dbo].[pc_data]
+WHERE Sale_Price < PC_Market_Price;
 
 -- 30. Rank Sales Person Name by Total Sales per Employee using a window function.
